@@ -1,3 +1,4 @@
+
 import { 
     IonButton,
     IonButtons,
@@ -13,18 +14,19 @@ import {
       IonSplitPane, 
       IonTitle, 
       IonToolbar 
-  } from '@ionic/react';
-  import{homeOutline, logOutOutline, rocketOutline} from 'ionicons/icons';
-  import {Redirect, Route} from 'react-router';
+  } from '@ionic/react'
+  import {homeOutline, logOutOutline, rocketOutline} from 'ionicons/icons';
+  import { Redirect, Route } from 'react-router';
   import Home from './Home';
   import About from './About';
-  
 
+  
   const Menu: React.FC = () => {
     const path = [
-        {name: 'Home', url: '/it35-lab/app/home', icon: homeOutline},
-        {name: 'About', url: '/it35-lab/app/about', icon: rocketOutline},
+        {name:'Home', url: '/it35-lab/app/home', icon: homeOutline},
+        {name:'About', url: '/it35-lab/app/about', icon: rocketOutline},
     ]
+  
     return (
         <IonPage>
             <IonSplitPane contentId="main">
@@ -57,6 +59,7 @@ import {
                 
                 <IonRouterOutlet id="main">
                     <Route exact path="/it35-lab/app/home" component={Home} />
+
                     <Route exact path="/it35-lab/app/about" component={About} />
   
                     <Route exact path="/it35-lab/app">
