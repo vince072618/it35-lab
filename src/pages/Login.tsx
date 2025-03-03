@@ -47,7 +47,7 @@ import { logoFacebook, logoIonic } from 'ionicons/icons';
                       overflow: 'hidden' 
                     }}
                   >
-                    <img alt="Silhouette of a person's head" src="https://scontent.fcgm1-1.fna.fbcdn.net/v/t39.30808-6/477202768_2436664660023090_114906604535478103_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeFHYwAmJpk8_jqmlhHqQ-_SNMRThABa3H00xFOEAFrcfYYyZBe7R3yE4Sg7XF9JDRfQ0tDcE4YN4rb9tfkY-Zxa&_nc_ohc=cQT5fKht27kQ7kNvgF-JMIa&_nc_oc=AdhfdA3q7POlJvnUZkrpj7hvBit58h6wpDAFdVq9kwpCrDoUjKnTDqop3cFSPc7M17g&_nc_zt=23&_nc_ht=scontent.fcgm1-1.fna&_nc_gid=AVpkw4joVck5HNS6fjXVAt9&oh=00_AYDCdxTz9kOVJ6RVyLxhO15Uq6ArKQGfJnJEnr7LLUxCEA&oe=67CB3E75" />
+                    <img alt="Silhouette of a person's head" src="https://scontent.fcgm1-1.fna.fbcdn.net/v/t39.30808-6/471332119_2400823340273889_1470886665211198857_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=a5f93a&_nc_eui2=AeEmihZhXyuddQcEdaPshy_1bq-k74azHtZur6TvhrMe1sXIgC2WhBA0kF5n31H3ydBhdiewkD2I9SWVDu-1KMws&_nc_ohc=XtIWOSK954sQ7kNvgEPCJqF&_nc_oc=AdiyfyZRdIEHFQ82y4oNW78RrOk4EbaxlWNIpTRTpEdKMwc5rDSIalzGK2d7zejMz2I&_nc_zt=23&_nc_ht=scontent.fcgm1-1.fna&_nc_gid=At9MWxDYMZOynycVMYczcyg&oh=00_AYDGYALN0Uzn6jdPg9wKiqkTl6s-D00U4mR61rCtlN5Crg&oe=67CB2B22" />
                     {/*
                      <IonIcon 
                       icon={logoFacebook}
