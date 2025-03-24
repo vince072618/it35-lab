@@ -1,83 +1,177 @@
 import { 
   IonAvatar,
-    IonButton,
-    IonButtons,
-      IonContent, 
-      IonHeader, 
-      IonIcon, 
-      IonInput, 
-      IonInputPasswordToggle, 
-      IonItem, 
-      IonMenuButton, 
-      IonPage, 
-      IonTitle, 
-      IonToolbar, 
-      useIonRouter
-  } from '@ionic/react';
-import { logoFacebook, logoIonic } from 'ionicons/icons';
-  
-  const Login: React.FC = () => {
-    const navigation = useIonRouter();
-  
-    const doLogin = () => {
-        navigation.push('/it35-lab/app','forward','replace');
+  IonButton,
+  IonContent, 
+  IonItem, 
+  IonInput, 
+  IonInputPasswordToggle, 
+  IonPage, 
+  IonTitle, 
+  useIonRouter
+} from '@ionic/react';
+import { useState } from 'react';
+
+const Login: React.FC = () => {
+  const [isRegistering, setIsRegistering] = useState<boolean>(false); // State to toggle between login and registration
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [confirmPassword, setConfirmPassword] = useState<string>('');
+  const navigation = useIonRouter();
+
+  const handleRegister = () => {
+    if (password !== confirmPassword) {
+      alert('Passwords do not match.');
+      return;
     }
-    return (
-      <IonPage>
-        <IonContent className='ion-padding'>
 
-        <div style={{
-                  display: 'flex',
-                  flexDirection:'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  height: '100%',
-                  width:'100%',
-                  marginTop:'-10rem',
-                  marginBottom:'-18rem',
-                }}>
-             <IonAvatar
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      width: '150px',
-                      height: '150px',
-                      borderRadius: '50%', 
-                      overflow: 'hidden' 
-                    }}
-                  >
-                    <img alt="Silhouette of a person's head" src="https://scontent.fcgm1-1.fna.fbcdn.net/v/t39.30808-6/477202768_2436664660023090_114906604535478103_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeFHYwAmJpk8_jqmlhHqQ-_SNMRThABa3H00xFOEAFrcfYYyZBe7R3yE4Sg7XF9JDRfQ0tDcE4YN4rb9tfkY-Zxa&_nc_ohc=cQT5fKht27kQ7kNvgF-JMIa&_nc_oc=AdhfdA3q7POlJvnUZkrpj7hvBit58h6wpDAFdVq9kwpCrDoUjKnTDqop3cFSPc7M17g&_nc_zt=23&_nc_ht=scontent.fcgm1-1.fna&_nc_gid=AVpkw4joVck5HNS6fjXVAt9&oh=00_AYDCdxTz9kOVJ6RVyLxhO15Uq6ArKQGfJnJEnr7LLUxCEA&oe=67CB3E75" />
-                    {/*
-                     <IonIcon 
-                      icon={logoFacebook}
-                      color='primary'
-                      style={{ fontSize: '120px', color: '#6c757d' }} 
-                    />
-                    */}
-                  </IonAvatar>
-                  <h1 style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}>USER LOGIN</h1>
-                    
-          </div>
-          
-            <IonTitle>Login</IonTitle>
-          <IonItem>
-        <IonInput label="Email input" type="email" placeholder="email@domain.com"></IonInput>
-      </IonItem>
-
-        <IonInput type="password" label="Password" value="NeverGonnaGiveYouUp">
-      <IonInputPasswordToggle slot="end"></IonInputPasswordToggle>
-    </IonInput>
-            <IonButton onClick={() => doLogin()} expand="full">
-                Login
-            </IonButton>
-        </IonContent>
-      </IonPage>
-    );
+    // Here, you should handle saving user registration data (e.g., to localStorage, backend, etc.)
+    localStorage.setItem('user', JSON.stringify({ email, password }));
+    alert('Registration Successful!');
+    setIsRegistering(false); // Switch to login page after successful registration
   };
-  
-  export default Login;
+
+  const handleLogin = () => {
+    const storedUser = localStorage.getItem('user');
+    if (!storedUser) {
+      alert('You must register first!');
+      return;
+    }
+
+    const user = JSON.parse(storedUser);
+
+    if (email === user.email && password === user.password) {
+      navigation.push('/it35-lab/app', 'forward', 'replace');
+    } else {
+      alert('Invalid credentials!');
+    }
+  };
+
+  return (
+    <IonPage>
+      <IonContent className="ion-padding">
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: '100%',
+            width: '100%',
+            marginTop: '-10rem',
+            marginBottom: '-18rem',
+          }}
+        >
+          <IonAvatar
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '150px',
+              height: '150px',
+              borderRadius: '50%',
+              overflow: 'hidden',
+            }}
+          >
+            <img
+              alt="Avatar"
+              src="https://t4.ftcdn.net/jpg/03/20/28/53/360_F_320285320_KZUJiOBnPTc1KS3de8d3L90OkrqQBTsL.jpg"
+            />
+          </IonAvatar>
+          <h1
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            {isRegistering ? 'Create Your Account' : 'Welcome Back'}
+          </h1>
+        </div>
+
+        {isRegistering ? (
+          <>
+            <IonTitle>Create Account</IonTitle>
+            <IonItem>
+              <IonInput
+                label="Email"
+                type="email"
+                placeholder="email@domain.com"
+                value={email}
+                onIonChange={(e) => setEmail(e.detail.value!)}
+              />
+            </IonItem>
+
+            <IonItem>
+              <IonInput
+                label="Password"
+                type="password"
+                placeholder="Enter your password"
+                value={password}
+                onIonChange={(e) => setPassword(e.detail.value!)}
+              />
+              <IonInputPasswordToggle slot="end" />
+            </IonItem>
+
+            <IonItem>
+              <IonInput
+                label="Confirm Password"
+                type="password"
+                placeholder="Confirm your password"
+                value={confirmPassword}
+                onIonChange={(e) => setConfirmPassword(e.detail.value!)}
+              />
+              <IonInputPasswordToggle slot="end" />
+            </IonItem>
+
+            <IonButton onClick={handleRegister} expand="full">
+              Register
+            </IonButton>
+            <IonButton
+              onClick={() => setIsRegistering(false)}
+              expand="full"
+              fill="clear"
+            >
+              Already have an account? Sign In
+            </IonButton>
+          </>
+        ) : (
+          <>
+            <IonTitle>Sign In</IonTitle>
+            <IonItem>
+              <IonInput
+                label="Email"
+                type="email"
+                placeholder="email@domain.com"
+                value={email}
+                onIonChange={(e) => setEmail(e.detail.value!)}
+              />
+            </IonItem>
+
+            <IonItem>
+              <IonInput
+                label="Password"
+                type="password"
+                placeholder="Enter your password"
+                value={password}
+                onIonChange={(e) => setPassword(e.detail.value!)}
+              />
+            </IonItem>
+
+            <IonButton onClick={handleLogin} expand="full">
+              Sign In
+            </IonButton>
+            <IonButton
+              onClick={() => setIsRegistering(true)}
+              expand="full"
+              fill="clear"
+            >
+              Don't have an account? Create one
+            </IonButton>
+          </>
+        )}
+      </IonContent>
+    </IonPage>
+  );
+};
+
+export default Login;
