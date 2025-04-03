@@ -1,66 +1,64 @@
 import { 
+  IonAlert,
   IonAvatar,
   IonButton,
   IonContent, 
-  IonItem, 
+  IonIcon, 
   IonInput, 
-  IonInputPasswordToggle, 
-  IonPage, 
-  IonTitle, 
+  IonInputPasswordToggle,  
+  IonPage,  
+  IonToast,  
   useIonRouter
 } from '@ionic/react';
+import { logoIonic } from 'ionicons/icons';
 import { useState } from 'react';
+import { supabase } from '../utils/supabaseClients';
+
+const AlertBox: React.FC<{ message: string; isOpen: boolean; onClose: () => void }> = ({ message, isOpen, onClose }) => {
+  return (
+    <IonAlert
+      isOpen={isOpen}
+      onDidDismiss={onClose}
+      header="Notification"
+      message={message}
+      buttons={['OK']}
+    />
+  );
+};
 
 const Login: React.FC = () => {
-  const [isRegistering, setIsRegistering] = useState<boolean>(false); // State to toggle between login and registration
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [confirmPassword, setConfirmPassword] = useState<string>('');
   const navigation = useIonRouter();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [alertMessage, setAlertMessage] = useState('');
+  const [showAlert, setShowAlert] = useState(false);
+  const [showToast, setShowToast] = useState(false);
 
-  const handleRegister = () => {
-    if (password !== confirmPassword) {
-      alert('Passwords do not match.');
+  const doLogin = async () => {
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+
+    if (error) {
+      setAlertMessage(error.message);
+      setShowAlert(true);
       return;
     }
 
-    // Here, you should handle saving user registration data (e.g., to localStorage, backend, etc.)
-    localStorage.setItem('user', JSON.stringify({ email, password }));
-    alert('Registration Successful!');
-    setIsRegistering(false); // Switch to login page after successful registration
-  };
-
-  const handleLogin = () => {
-    const storedUser = localStorage.getItem('user');
-    if (!storedUser) {
-      alert('You must register first!');
-      return;
-    }
-
-    const user = JSON.parse(storedUser);
-
-    if (email === user.email && password === user.password) {
+    setShowToast(true); 
+    setTimeout(() => {
       navigation.push('/it35-lab/app', 'forward', 'replace');
-    } else {
-      alert('Invalid credentials!');
-    }
+    }, 300);
   };
-
+  
   return (
     <IonPage>
-      <IonContent className="ion-padding">
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            height: '100%',
-            width: '100%',
-            marginTop: '-10rem',
-            marginBottom: '-18rem',
-          }}
-        >
+      <IonContent className='ion-padding'>
+        <div style={{
+          display: 'flex',
+          flexDirection:'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginTop:'25%'
+        }}>
           <IonAvatar
             style={{
               display: 'flex',
@@ -68,107 +66,60 @@ const Login: React.FC = () => {
               justifyContent: 'center',
               width: '150px',
               height: '150px',
-              borderRadius: '50%',
-              overflow: 'hidden',
+              borderRadius: '50%', 
+              overflow: 'hidden' 
             }}
           >
-            <img
-              alt="Avatar"
-              src="https://t4.ftcdn.net/jpg/03/20/28/53/360_F_320285320_KZUJiOBnPTc1KS3de8d3L90OkrqQBTsL.jpg"
+            <IonIcon 
+              icon={logoIonic}
+              color='primary'
+              style={{ fontSize: '120px', color: '#6c757d' }} 
             />
           </IonAvatar>
-          <h1
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
+          <h1 style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>USER LOGIN</h1>
+          <IonInput
+            label="Email" 
+            labelPlacement="floating" 
+            fill="outline"
+            type="email"
+            placeholder="Enter Email"
+            value={email}
+            onIonChange={e => setEmail(e.detail.value!)}
+          />
+          <IonInput style={{ marginTop:'10px' }}      
+            fill="outline"
+            type="password"
+            placeholder="Password"
+            value={password}
+            onIonChange={e => setPassword(e.detail.value!)}
           >
-            {isRegistering ? 'Create Your Account' : 'Welcome Back'}
-          </h1>
+            <IonInputPasswordToggle slot="end"></IonInputPasswordToggle>
+          </IonInput>
         </div>
+        <IonButton onClick={doLogin} expand="full" shape='round'>
+          Login
+        </IonButton>
 
-        {isRegistering ? (
-          <>
-            <IonTitle>Create Account</IonTitle>
-            <IonItem>
-              <IonInput
-                label="Email"
-                type="email"
-                placeholder="email@domain.com"
-                value={email}
-                onIonChange={(e) => setEmail(e.detail.value!)}
-              />
-            </IonItem>
+        <IonButton routerLink="/it35-lab/register" expand="full" fill="clear" shape='round'>
+          Don't have an account? Register here
+        </IonButton>
 
-            <IonItem>
-              <IonInput
-                label="Password"
-                type="password"
-                placeholder="Enter your password"
-                value={password}
-                onIonChange={(e) => setPassword(e.detail.value!)}
-              />
-              <IonInputPasswordToggle slot="end" />
-            </IonItem>
+        {/* Reusable AlertBox Component */}
+        <AlertBox message={alertMessage} isOpen={showAlert} onClose={() => setShowAlert(false)} />
 
-            <IonItem>
-              <IonInput
-                label="Confirm Password"
-                type="password"
-                placeholder="Confirm your password"
-                value={confirmPassword}
-                onIonChange={(e) => setConfirmPassword(e.detail.value!)}
-              />
-              <IonInputPasswordToggle slot="end" />
-            </IonItem>
-
-            <IonButton onClick={handleRegister} expand="full">
-              Register
-            </IonButton>
-            <IonButton
-              onClick={() => setIsRegistering(false)}
-              expand="full"
-              fill="clear"
-            >
-              Already have an account? Sign In
-            </IonButton>
-          </>
-        ) : (
-          <>
-            <IonTitle>Sign In</IonTitle>
-            <IonItem>
-              <IonInput
-                label="Email"
-                type="email"
-                placeholder="email@domain.com"
-                value={email}
-                onIonChange={(e) => setEmail(e.detail.value!)}
-              />
-            </IonItem>
-
-            <IonItem>
-              <IonInput
-                label="Password"
-                type="password"
-                placeholder="Enter your password"
-                value={password}
-                onIonChange={(e) => setPassword(e.detail.value!)}
-              />
-            </IonItem>
-
-            <IonButton onClick={handleLogin} expand="full">
-              Sign In
-            </IonButton>
-            <IonButton
-              onClick={() => setIsRegistering(true)}
-              expand="full"
-              fill="clear"
-            >
-              Don't have an account? Create one
-            </IonButton>
-          </>
-        )}
+        {/* IonToast for success message */}
+        <IonToast
+          isOpen={showToast}
+          onDidDismiss={() => setShowToast(false)}
+          message="Login successful! Redirecting..."
+          duration={1500}
+          position="top"
+          color="primary"
+        />
       </IonContent>
     </IonPage>
   );
