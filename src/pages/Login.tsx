@@ -51,36 +51,40 @@ const Login: React.FC = () => {
   
   return (
     <IonPage>
-      <IonContent className='ion-padding'>
+      <IonContent className='ion-padding' style={{ backgroundColor: '#f0f2f5' }}>
         <div style={{
           display: 'flex',
-          flexDirection:'column',
+          flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          marginTop:'25%'
+          marginTop: '15%',
+          width: '100%',
         }}>
           <IonAvatar
             style={{
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              width: '150px',
-              height: '150px',
-              borderRadius: '50%', 
-              overflow: 'hidden' 
+              width: '100px',
+              height: '100px',
+              borderRadius: '50%',
+              marginBottom: '20px',
+              backgroundColor: '#1877f2',
+              color: 'white',
             }}
           >
             <IonIcon 
               icon={logoIonic}
-              color='primary'
-              style={{ fontSize: '120px', color: '#6c757d' }} 
+              style={{ fontSize: '60px', color: '#fff' }} 
             />
           </IonAvatar>
-          <h1 style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>USER LOGIN</h1>
+
+          <h2 style={{
+            fontSize: '24px',
+            color: '#1877f2',
+            marginBottom: '20px',
+          }}>Login to Your Account</h2>
+          
           <IonInput
             label="Email" 
             labelPlacement="floating" 
@@ -89,37 +93,51 @@ const Login: React.FC = () => {
             placeholder="Enter Email"
             value={email}
             onIonChange={e => setEmail(e.detail.value!)}
+            style={{ width: '80%', marginBottom: '15px' }}
           />
-          <IonInput style={{ marginTop:'10px' }}      
+          <IonInput      
             fill="outline"
             type="password"
             placeholder="Password"
             value={password}
             onIonChange={e => setPassword(e.detail.value!)}
+            style={{ width: '80%', marginBottom: '25px' }}
           >
             <IonInputPasswordToggle slot="end"></IonInputPasswordToggle>
           </IonInput>
+
+          <IonButton 
+            onClick={doLogin} 
+            expand="full" 
+            shape="round" 
+            style={{ backgroundColor: '#1877f2', color: 'white', marginBottom: '10px' }}
+          >
+            Log In
+          </IonButton>
+
+          <IonButton 
+            routerLink="/it35-lab/register" 
+            expand="full" 
+            fill="clear" 
+            shape="round" 
+            style={{ color: '#1877f2' }}
+          >
+            Don't have an account? Register here
+          </IonButton>
+
+          {/* Reusable AlertBox Component */}
+          <AlertBox message={alertMessage} isOpen={showAlert} onClose={() => setShowAlert(false)} />
+
+          {/* IonToast for success message */}
+          <IonToast
+            isOpen={showToast}
+            onDidDismiss={() => setShowToast(false)}
+            message="Login successful! Redirecting..."
+            duration={1500}
+            position="top"
+            color="primary"
+          />
         </div>
-        <IonButton onClick={doLogin} expand="full" shape='round'>
-          Login
-        </IonButton>
-
-        <IonButton routerLink="/it35-lab/register" expand="full" fill="clear" shape='round'>
-          Don't have an account? Register here
-        </IonButton>
-
-        {/* Reusable AlertBox Component */}
-        <AlertBox message={alertMessage} isOpen={showAlert} onClose={() => setShowAlert(false)} />
-
-        {/* IonToast for success message */}
-        <IonToast
-          isOpen={showToast}
-          onDidDismiss={() => setShowToast(false)}
-          message="Login successful! Redirecting..."
-          duration={1500}
-          position="top"
-          color="primary"
-        />
       </IonContent>
     </IonPage>
   );
