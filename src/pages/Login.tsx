@@ -1,16 +1,13 @@
 import { 
   IonAlert,
-  IonAvatar,
   IonButton,
   IonContent, 
-  IonIcon, 
   IonInput, 
   IonInputPasswordToggle,  
   IonPage,  
   IonToast,  
   useIonRouter
 } from '@ionic/react';
-import { logoIonic } from 'ionicons/icons';
 import { useState } from 'react';
 import { supabase } from '../utils/supabaseClients';
 
@@ -51,84 +48,137 @@ const Login: React.FC = () => {
   
   return (
     <IonPage>
-      <IonContent className='ion-padding' style={{ backgroundColor: '#f0f2f5' }}>
+      <IonContent className="ion-padding" fullscreen>
+        {/* Background GIF */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          backgroundImage: 'url("https://i.pinimg.com/originals/ee/11/9a/ee119a5f13fbecb496deba48c6b30e48.gif")',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          zIndex: -1,
+          opacity: 0.6,
+        }}></div>
+
+        {/* Login Card Area */}
         <div style={{
           display: 'flex',
-          flexDirection: 'column',
+          flexDirection: 'row',
           alignItems: 'center',
-          justifyContent: 'center',
-          marginTop: '15%',
-          width: '100%',
+          justifyContent: 'flex-start',
+          minHeight: '100vh',
+          padding: '20px',
         }}>
-          <IonAvatar
-            style={{
+          {/* Login Card */}
+          <div style={{
+            width: '100%',
+            maxWidth: '400px',
+            backgroundColor: 'rgba(0, 0, 0, 0.6)', // darker, matching atlas gif
+            borderRadius: '20px',
+            padding: '40px 30px',
+            boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.8)',
+            backdropFilter: 'blur(8px)',
+            WebkitBackdropFilter: 'blur(8px)',
+            border: '2px solid black', 
+            marginLeft: '40px',
+          }}>
+            {/* Logo Image */}
+            <div style={{
               display: 'flex',
-              alignItems: 'center',
               justifyContent: 'center',
-              width: '100px',
-              height: '100px',
-              borderRadius: '50%',
+              marginBottom: '30px',
+            }}>
+              <img 
+                src="https://www.pcguide.com/wp-content/uploads/2023/04/atlasos-logo.jpg" 
+                alt="AtlasOS Logo"
+                style={{ width: '150px', height: 'auto', borderRadius: '10px' }}
+              />
+            </div>
+
+            {/* Title */}
+            <h1 style={{
+              fontSize: '22px',
+              fontWeight: 600,
+              textAlign: 'center',
               marginBottom: '20px',
-              backgroundColor: '#1877f2',
-              color: 'white',
-            }}
-          >
-            <IonIcon 
-              icon={logoIonic}
-              style={{ fontSize: '60px', color: '#fff' }} 
+              color: '#ffffff', // White for better contrast
+              textShadow: '1px 1px 2px rgba(0,0,0,0.8)'
+            }}>Welcome to AtlasOS</h1>
+
+            {/* Inputs */}
+            <IonInput
+              label="Email"
+              labelPlacement="floating"
+              fill="outline"
+              type="email"
+              placeholder="Email address"
+              value={email}
+              onIonChange={e => setEmail(e.detail.value!)}
+              style={{ 
+                marginBottom: '20px',
+                color: '#ffffff',
+                backgroundColor: 'rgba(255,255,255,0.1)',
+                borderRadius: '8px',
+                '--highlight-color-focused': 'white',
+                '--border-color': 'white',
+              }}
             />
-          </IonAvatar>
 
-          <h2 style={{
-            fontSize: '24px',
-            color: '#1877f2',
-            marginBottom: '20px',
-          }}>Login to Your Account</h2>
-          
-          <IonInput
-            label="Email" 
-            labelPlacement="floating" 
-            fill="outline"
-            type="email"
-            placeholder="Enter Email"
-            value={email}
-            onIonChange={e => setEmail(e.detail.value!)}
-            style={{ width: '80%', marginBottom: '15px' }}
-          />
-          <IonInput      
-            fill="outline"
-            type="password"
-            placeholder="Password"
-            value={password}
-            onIonChange={e => setPassword(e.detail.value!)}
-            style={{ width: '80%', marginBottom: '25px' }}
-          >
-            <IonInputPasswordToggle slot="end"></IonInputPasswordToggle>
-          </IonInput>
+            <IonInput
+              fill="outline"
+              type="password"
+              placeholder="Password"
+              value={password}
+              onIonChange={e => setPassword(e.detail.value!)}
+              style={{ 
+                marginBottom: '30px',
+                color: '#ffffff',
+                backgroundColor: 'rgba(255,255,255,0.1)',
+                borderRadius: '8px',
+                '--highlight-color-focused': 'white',
+                '--border-color': 'white',
+              }}
+            >
+              <IonInputPasswordToggle slot="end"></IonInputPasswordToggle>
+            </IonInput>
 
-          <IonButton 
-            onClick={doLogin} 
-            expand="full" 
-            shape="round" 
-            style={{ backgroundColor: '#1877f2', color: 'white', marginBottom: '10px' }}
-          >
-            Log In
-          </IonButton>
+            {/* Button */}
+            <IonButton 
+              onClick={doLogin} 
+              expand="block" 
+              shape="round" 
+              style={{ 
+                marginBottom: '10px', 
+                backgroundColor: '#1a73e8',
+                color: 'white'
+              }}
+            >
+              Log In
+            </IonButton>
 
-          <IonButton 
-            routerLink="/it35-lab/register" 
-            expand="full" 
-            fill="clear" 
-            shape="round" 
-            style={{ color: '#1877f2' }}
-          >
-            Don't have an account? Register here
-          </IonButton>
+            {/* Register link */}
+            <div style={{
+              textAlign: 'center',
+              marginTop: '10px',
+              fontSize: '14px',
+              color: '#ffffff',
+            }}>
+              Don't have an account?&nbsp;
+              <a href="/it35-lab/register" style={{ color: '#1a73e8', textDecoration: 'underline', fontWeight: 500 }}>
+                Register
+              </a>
+            </div>
 
-          {/* Reusable AlertBox Component */}
+          </div>
+
+          {/* AlertBox */}
           <AlertBox message={alertMessage} isOpen={showAlert} onClose={() => setShowAlert(false)} />
 
-          {/* IonToast for success message */}
+          {/* IonToast for success */}
           <IonToast
             isOpen={showToast}
             onDidDismiss={() => setShowToast(false)}
