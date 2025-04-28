@@ -107,7 +107,7 @@ const Login: React.FC = () => {
               marginBottom: '20px',
               color: '#ffffff', // White for better contrast
               textShadow: '1px 1px 2px rgba(0,0,0,0.8)'
-            }}>Welcome to AtlasOS</h1>
+            }}>Welcome Back</h1>
 
             {/* Inputs */}
             <IonInput
